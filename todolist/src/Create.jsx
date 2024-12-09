@@ -1,4 +1,3 @@
-// ./todolist/src/Create.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -9,7 +8,7 @@ function Create({ addTodo }) {
         axios.post('http://localhost:3001/add', { task: task })
             .then(result => {
                 console.log(result);
-                addTodo(task);
+                addTodo(result.data); // Add the new task to the state
                 setTask(''); // Clear the input field
             })
             .catch(err => console.log(err));
