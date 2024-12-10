@@ -39,12 +39,19 @@ app.put('/update/:id', (req, res) => {
 })
 
 // Endpoint to delete task
-app.put('/delete/:id', (req, res) => {
+app.delete('/delete/:id', (req, res) => {
     const { id } = req.params;
     TodoModel.findByIdAndDelete({ _id: id })
-        .then(result => res.json(result))
-        .catch(err => res.json(err));
-})
+        .then(result => {
+            if (result) {
+                res.status(200).json({ message: 'Task deleted successfully' });
+            } else {
+                res.status(404).json({ message: 'Task not found' });
+            }
+        })
+        .catch(err => res.status(500).json({ error: err.message }));
+});
+
 
 app.listen(Port, () => {
     console.log(`Server is running: ${Port}`);
